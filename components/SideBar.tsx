@@ -1,18 +1,54 @@
+import { useState } from "react";
 import styled from "@emotion/styled";
 
+interface MenuProps {
+  isClicked: boolean;
+}
+
 function SideBar() {
+  const [selectedMenu, setSetSelectdMenu] = useState<string>("Dashboard");
+
+  function handleMenuItemClick(clickedMenu: string) {
+    setSetSelectdMenu(clickedMenu);
+  }
+
   return (
     <SideBarWrapper>
       <div className="title-container">
         <span className="title">DBDLAB Corp.</span>
       </div>
-      <div className="menu-list-containter">
-        <div className="menu">Dashboard</div>
-        <div className="menu">Research</div>
-        <div className="menu">Members</div>
-        <div className="menu">Insight</div>
-        <div className="menu">Calendar</div>
-      </div>
+      <MenuListContainer>
+        <Menu
+          isClicked={selectedMenu === "Dashboard"}
+          onClick={() => handleMenuItemClick("Dashboard")}
+        >
+          Dashboard
+        </Menu>
+        <Menu
+          isClicked={selectedMenu === "Research"}
+          onClick={() => handleMenuItemClick("Research")}
+        >
+          Research
+        </Menu>
+        <Menu
+          isClicked={selectedMenu === "Members"}
+          onClick={() => handleMenuItemClick("Members")}
+        >
+          Members
+        </Menu>
+        <Menu
+          isClicked={selectedMenu === "Insight"}
+          onClick={() => handleMenuItemClick("Insight")}
+        >
+          Insight
+        </Menu>
+        <Menu
+          isClicked={selectedMenu === "Calendar"}
+          onClick={() => handleMenuItemClick("Calendar")}
+        >
+          Calendar
+        </Menu>
+      </MenuListContainer>
     </SideBarWrapper>
   );
 }
@@ -32,15 +68,17 @@ const SideBarWrapper = styled.div`
       font-weight: 700;
     }
   }
+`;
 
-  .menu-list-containter {
-    margin-top: 55px;
+const MenuListContainer = styled.div`
+  margin-top: 55px;
+`;
 
-    .menu {
-      font-size: 15px;
-      padding: 20px 40px;
-    }
-  }
+const Menu = styled.div<MenuProps>`
+  margin: 40px;
+  font-size: 15px;
+  color: ${(props) => (props.isClicked ? "blue" : "black")};
+  cursor: pointer;
 `;
 
 export default SideBar;
