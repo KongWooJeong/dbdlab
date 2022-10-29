@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 
 interface MenuProps {
@@ -8,8 +9,11 @@ interface MenuProps {
 function SideBar() {
   const [selectedMenu, setSetSelectdMenu] = useState<string>("Dashboard");
 
+  const router = useRouter();
+
   function handleMenuItemClick(clickedMenu: string) {
     setSetSelectdMenu(clickedMenu);
+    router.push(clickedMenu.toLowerCase());
   }
 
   return (
