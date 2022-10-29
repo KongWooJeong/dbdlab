@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import styled from "@emotion/styled";
 
+import SideBar from "./SideBar";
+
 interface Props {
   children: ReactNode;
 }
@@ -8,7 +10,9 @@ interface Props {
 function Layout({ children }: Props) {
   return (
     <LayoutWrapper>
-      <aside className="menu-container">네비</aside>
+      <aside className="menu-container">
+        <SideBar />
+      </aside>
       <main className="main-container">{children}</main>
     </LayoutWrapper>
   );
@@ -31,6 +35,7 @@ const LayoutWrapper = styled.div`
     position: relative;
     top: 0;
     left: 252px;
+    padding: 20px;
   }
 `;
 
