@@ -32,9 +32,8 @@ const LayoutWrapper = styled.div`
   }
 
   .main-container {
-    position: relative;
-    top: 0;
-    left: 252px;
+    width: 100%;
+    margin-left: 252px;
     padding: 20px;
   }
 `;
