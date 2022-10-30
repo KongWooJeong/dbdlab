@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import axios from "axios";
 
 import CovidDaily from "../components/pages/dashboard/CovidDaily";
+import CovidAge from "../components/pages/dashboard/CovidAge";
+import CovidGender from "../components/pages/dashboard/CovidGender";
 
 interface CovidDayInfo {
   decideCnt: string;
@@ -9,19 +11,30 @@ interface CovidDayInfo {
   stateTime: string;
 }
 
-interface Props {
-  covidDayInfo: CovidDayInfo[];
+interface CovidGenAgeInfo {
+  confCase: string;
+  stateDt: string;
+  gubun: string;
 }
 
-function Dashboard({ covidDayInfo }: Props) {
+interface Props {
+  covidDayInfoList: CovidDayInfo[];
+  covidGenAgeInfoList: CovidGenAgeInfo[];
+}
+
+function Dashboard({ covidDayInfoList, covidGenAgeInfoList }: Props) {
   return (
     <DashboardWrapper>
       <div className="first-row-container">
-        <CovidDaily data={covidDayInfo} />
+        <CovidDaily data={covidDayInfoList} />
       </div>
       <div className="second-row-container">
-        <div className="first-column-container">두번쨰</div>
-        <div className="second-column-container">세번째</div>
+        <div className="first-column-container">
+          <CovidAge data={covidGenAgeInfoList} />
+        </div>
+        <div className="second-column-container">
+          <CovidGender data={covidGenAgeInfoList} />
+        </div>
       </div>
     </DashboardWrapper>
   );
@@ -52,13 +65,17 @@ const DashboardWrapper = styled.div`
 `;
 
 export async function getServerSideProps() {
-  const { data } = await axios.get(
+  const covidInfo = await axios.get(
     "http://localhost:3000/covidData/getCovid19InfState.json"
+  );
+  const covidGenAgeInfo = await axios.get(
+    "http://localhost:3000/covidData/getCovid19GenAgeCaseInf.json"
   );
 
   return {
     props: {
-      covidDayInfo: data.items.item,
+      covidDayInfoList: covidInfo.data.items.item,
+      covidGenAgeInfoList: covidGenAgeInfo.data.items.item,
     },
   };
 }
