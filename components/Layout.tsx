@@ -11,7 +11,9 @@ function Layout({ children }: Props) {
   return (
     <LayoutWrapper>
       <aside className="menu-container">
-        <SideBar />
+        <SideBar
+          menuList={["Dashboard", "Research", "Members", "Insight", "Calendar"]}
+        />
       </aside>
       <main className="main-container">{children}</main>
     </LayoutWrapper>
