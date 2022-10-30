@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import { ChartData, ChartOptions } from "chart.js";
 import moment from "moment";
 
 import ChartSection from "../../chart/ChartSection";
@@ -19,7 +21,7 @@ interface Props {
   data: CovidGenAgeInfo[];
 }
 
-const options = {
+const options: ChartOptions<"bar"> = {
   indexAxis: "y" as const,
   plugins: {
     legend: {
@@ -66,45 +68,49 @@ const colorInfo = {
 };
 
 function CovidAge({ data }: Props) {
-  const covidAgeInfo: CovidAgeInfo = {};
-  const barLabels = new Set<string>();
+  const barChartData = useMemo(() => {
+    const covidAgeInfo: CovidAgeInfo = {};
+    const barLabels = new Set<string>();
 
-  data.forEach((item) => {
-    if (item.gubun === "남성" || item.gubun === "여성") {
-      return;
-    }
+    data.forEach((item) => {
+      if (item.gubun === "남성" || item.gubun === "여성") {
+        return;
+      }
 
-    barLabels.add(item.stateDt);
+      barLabels.add(item.stateDt);
 
-    if (!covidAgeInfo[item.gubun]) {
-      covidAgeInfo[item.gubun] = {
-        [item.stateDt]: item.confCase,
-      };
+      if (!covidAgeInfo[item.gubun]) {
+        covidAgeInfo[item.gubun] = {
+          [item.stateDt]: item.confCase,
+        };
 
-      return;
-    }
+        return;
+      }
 
-    covidAgeInfo[item.gubun][item.stateDt] = item.confCase;
-  });
+      covidAgeInfo[item.gubun][item.stateDt] = item.confCase;
+    });
 
-  const barData = {
-    labels: [...barLabels]
-      .reverse()
-      .map((date) => moment(date).format("MM/DD")),
-    datasets: ageGubunList.map((label) => {
-      return {
-        label,
-        data: [...barLabels]
-          .reverse()
-          .map((item) => Number(covidAgeInfo[label][item])),
-        backgroundColor: colorInfo[label as keyof typeof colorInfo],
-      };
-    }),
-  };
+    const barChartData: ChartData<"bar"> = {
+      labels: [...barLabels]
+        .reverse()
+        .map((date) => moment(date).format("MM/DD")),
+      datasets: ageGubunList.map((label) => {
+        return {
+          label,
+          data: [...barLabels]
+            .reverse()
+            .map((item) => Number(covidAgeInfo[label][item])),
+          backgroundColor: colorInfo[label as keyof typeof colorInfo],
+        };
+      }),
+    };
+
+    return barChartData;
+  }, []);
 
   return (
-    <ChartSection title="코로나 일자별 확진자 수">
-      <StackedBarChart options={options} data={barData} />
+    <ChartSection title="코로나 연령대 확진자 수">
+      <StackedBarChart options={options} data={barChartData} />
     </ChartSection>
   );
 }
