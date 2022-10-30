@@ -1,4 +1,20 @@
-### 기능 구현 사항
+<br>
+
+# 💻  Covid Dashboard
+<br>
+
+# ⚙️ Installation
+```
+  1. git clone https://github.com/KongWooJeong/dbdlab.git
+  2. cd dbdlab
+  3. npm install
+  4. npm run build
+  5. npm run start
+```
+
+<br>
+
+# 💡 구현 사항
 1. 프로젝트 초기 세팅
   - 폴더 및 파일 정리
   - lint, prettier 세팅
@@ -18,3 +34,26 @@
   - 코로나 일자별 확진자 수 차트
   - 일자별 연령대 확진자 수 차트
   - 일자별 성별 확진자 수 차트
+6. 리팩토링
+  - 코로나 일자별 컴포넌트 chartOption 타입 지정
+  - 일자별 연령대 컴포넌트 chartOption 타입 지정
+  - 일자별 성별 컴포넌트 chartOption 타입 지정
+  - SideBar 컴포넌트 menuList props 추가
+  - 폴더 구조 정리
+  - SelectBox 컴포넌트 구현
+
+<br>
+
+# 🛠 Folder Structure
+```
+
+  - components: 화면 구성에 필요한 컴포넌트
+    - chart: 차트 관련 컴포넌트
+    - pages: 각 페이지에서 사용하는 컴포넌트
+    - common: 공용 컴포넌트
+  - pages: 각 페이지 화면
+  - public/covidData: covid mock data (.json file)
+  - styles: global style 구성
+```
+
+<br>
