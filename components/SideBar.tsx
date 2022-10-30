@@ -2,11 +2,15 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 
+interface Props {
+  menuList: string[];
+}
+
 interface MenuProps {
   isClicked: boolean;
 }
 
-function SideBar() {
+function SideBar({ menuList }: Props) {
   const [selectedMenu, setSetSelectdMenu] = useState<string>("Dashboard");
 
   const router = useRouter();
@@ -22,36 +26,17 @@ function SideBar() {
         <span className="title">DBDLAB Corp.</span>
       </div>
       <MenuListContainer>
-        <Menu
-          isClicked={selectedMenu === "Dashboard"}
-          onClick={() => handleMenuItemClick("Dashboard")}
-        >
-          Dashboard
-        </Menu>
-        <Menu
-          isClicked={selectedMenu === "Research"}
-          onClick={() => handleMenuItemClick("Research")}
-        >
-          Research
-        </Menu>
-        <Menu
-          isClicked={selectedMenu === "Members"}
-          onClick={() => handleMenuItemClick("Members")}
-        >
-          Members
-        </Menu>
-        <Menu
-          isClicked={selectedMenu === "Insight"}
-          onClick={() => handleMenuItemClick("Insight")}
-        >
-          Insight
-        </Menu>
-        <Menu
-          isClicked={selectedMenu === "Calendar"}
-          onClick={() => handleMenuItemClick("Calendar")}
-        >
-          Calendar
-        </Menu>
+        {menuList.map((menu) => {
+          return (
+            <Menu
+              key={menu}
+              isClicked={selectedMenu === menu}
+              onClick={() => handleMenuItemClick(menu)}
+            >
+              {menu}
+            </Menu>
+          );
+        })}
       </MenuListContainer>
     </SideBarWrapper>
   );
