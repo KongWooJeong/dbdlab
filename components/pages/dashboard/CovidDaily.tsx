@@ -25,7 +25,7 @@ const options = {
   maintainAspectRatio: false,
 };
 
-function CovidAge({ data }: Props) {
+function CovidDaily({ data }: Props) {
   const lineLabels = data.map((item) => moment(item.stateDt).format("MM/DD"));
 
   const lineChartdata = {
@@ -47,4 +47,4 @@ function CovidAge({ data }: Props) {
   );
 }
 
-export default CovidAge;
+export default CovidDaily;
