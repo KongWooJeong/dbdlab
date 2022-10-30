@@ -17,6 +17,18 @@ interface CovidGenAgeInfo {
   gubun: string;
 }
 
+interface Covid19InfStateResponse {
+  items: {
+    item: CovidDayInfo[];
+  };
+}
+
+interface Covid19GenAgeCaseInfResponse {
+  items: {
+    item: CovidGenAgeInfo[];
+  };
+}
+
 interface Props {
   covidDayInfoList: CovidDayInfo[];
   covidGenAgeInfoList: CovidGenAgeInfo[];
@@ -65,10 +77,10 @@ const DashboardWrapper = styled.div`
 `;
 
 export async function getServerSideProps() {
-  const covidInfo = await axios.get(
+  const covidInfo = await axios.get<Covid19InfStateResponse>(
     "http://localhost:3000/covidData/getCovid19InfState.json"
   );
-  const covidGenAgeInfo = await axios.get(
+  const covidGenAgeInfo = await axios.get<Covid19GenAgeCaseInfResponse>(
     "http://localhost:3000/covidData/getCovid19GenAgeCaseInf.json"
   );
 
