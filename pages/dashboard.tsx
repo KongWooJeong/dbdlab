@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 
-import CovidAge from "../components/pages/dashboard/CovidAge";
+import CovidDaily from "../components/pages/dashboard/CovidDaily";
 
 interface CovidDayInfo {
   decideCnt: string;
@@ -17,7 +17,7 @@ function Dashboard({ covidDayInfo }: Props) {
   return (
     <DashboardWrapper>
       <div className="first-row-container">
-        <CovidAge data={covidDayInfo} />
+        <CovidDaily data={covidDayInfo} />
       </div>
       <div className="second-row-container">
         <div className="first-column-container">두번쨰</div>
