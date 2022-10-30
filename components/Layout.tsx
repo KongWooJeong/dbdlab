@@ -35,6 +35,7 @@ const LayoutWrapper = styled.div`
     width: 100%;
     margin-left: 252px;
     padding: 20px;
+    overflow-x: hidden;
   }
 `;
 
