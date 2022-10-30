@@ -5,6 +5,7 @@ import moment from "moment";
 
 import ChartSection from "../../chart/ChartSection";
 import DoughnutChart from "../../chart/DoughnutChart";
+import SelectBox from "../../common/SelectBox";
 
 interface CovidGenAgeInfo {
   confCase: string;
@@ -46,18 +47,20 @@ function CovidGender({ data }: Props) {
 
     data.forEach((item) => {
       if (item.gubun === "남성" || item.gubun === "여성") {
-        doughnutLabels.add(item.stateDt);
+        const formmatedDate = moment(item.stateDt).format("MM/DD");
 
-        if (!covidDailyGenderRatioInfo[item.stateDt]) {
-          covidDailyGenderRatioInfo[item.stateDt] = [0, 0];
+        doughnutLabels.add(formmatedDate);
+
+        if (!covidDailyGenderRatioInfo[formmatedDate]) {
+          covidDailyGenderRatioInfo[formmatedDate] = [0, 0];
         }
 
         if (item.gubun === "남성") {
-          covidDailyGenderRatioInfo[item.stateDt][0]++;
+          covidDailyGenderRatioInfo[formmatedDate][0]++;
         }
 
         if (item.gubun === "여성") {
-          covidDailyGenderRatioInfo[item.stateDt][1]++;
+          covidDailyGenderRatioInfo[formmatedDate][1]++;
         }
       }
     });
@@ -93,15 +96,11 @@ function CovidGender({ data }: Props) {
     <ChartSection title="코로나 성별 확진자 수">
       <Wrapper>
         <div className="select-section">
-          <select onChange={handleDateSelect} value={selectedDate}>
-            {doughnutLabels.map((item) => {
-              return (
-                <option key={item} value={item}>
-                  {moment(item).format("MM/DD")}
-                </option>
-              );
-            })}
-          </select>
+          <SelectBox
+            itemList={doughnutLabels}
+            onChange={handleDateSelect}
+            selectedItem={selectedDate}
+          />
         </div>
         <div className="chart-section">
           <DoughnutChart
