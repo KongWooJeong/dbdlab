@@ -1,7 +1,7 @@
 import { useState, useMemo, ChangeEvent } from "react";
+import { ChartData, ChartOptions } from "chart.js";
 import styled from "@emotion/styled";
 import moment from "moment";
-import { ChartData } from "chart.js";
 
 import ChartSection from "../../chart/ChartSection";
 import DoughnutChart from "../../chart/DoughnutChart";
@@ -24,7 +24,7 @@ interface CovidDailyGenderRatioInfo {
   [key: string]: number[];
 }
 
-const options = {
+const options: ChartOptions<"doughnut"> = {
   plugins: {
     legend: {
       display: true,
@@ -82,7 +82,7 @@ function CovidGender({ data }: Props) {
       };
     });
 
-    return { doughnutLabels, doughnutDailyData };
+    return { doughnutLabels: [...doughnutLabels].reverse(), doughnutDailyData };
   }, []);
 
   function handleDateSelect(event: ChangeEvent<HTMLSelectElement>) {
@@ -90,11 +90,11 @@ function CovidGender({ data }: Props) {
   }
 
   return (
-    <ChartSection title="코로나 일자별 확진자 수">
+    <ChartSection title="코로나 성별 확진자 수">
       <Wrapper>
         <div className="select-section">
           <select onChange={handleDateSelect} value={selectedDate}>
-            {[...doughnutLabels].reverse().map((item) => {
+            {doughnutLabels.map((item) => {
               return (
                 <option key={item} value={item}>
                   {moment(item).format("MM/DD")}
@@ -108,7 +108,7 @@ function CovidGender({ data }: Props) {
             options={options}
             data={
               selectedDate === ""
-                ? doughnutDailyData[[...doughnutLabels].reverse()[0]]
+                ? doughnutDailyData[doughnutLabels[0]]
                 : doughnutDailyData[selectedDate]
             }
           />
