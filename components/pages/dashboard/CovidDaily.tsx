@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import { ChartData, ChartOptions } from "chart.js";
 import moment from "moment";
 
 import ChartSection from "../../chart/ChartSection";
@@ -13,7 +15,7 @@ interface Props {
   data: CovidDayInfo[];
 }
 
-const options = {
+const options: ChartOptions<"line"> = {
   plugins: {
     legend: {
       display: false,
@@ -26,23 +28,27 @@ const options = {
 };
 
 function CovidDaily({ data }: Props) {
-  const lineLabels = data.map((item) => moment(item.stateDt).format("MM/DD"));
+  const lineChartData = useMemo(() => {
+    const lineLabels = data.map((item) => moment(item.stateDt).format("MM/DD"));
 
-  const lineChartdata = {
-    labels: lineLabels.reverse(),
-    datasets: [
-      {
-        label: "daily covid",
-        data: data.map((item) => Number(item.decideCnt)),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-    ],
-  };
+    const lineChartdata: ChartData<"line"> = {
+      labels: lineLabels.reverse(),
+      datasets: [
+        {
+          label: "daily covid",
+          data: data.map((item) => Number(item.decideCnt)),
+          borderColor: "#3F3B6C",
+          backgroundColor: "#624F82",
+        },
+      ],
+    };
+
+    return lineChartdata;
+  }, []);
 
   return (
     <ChartSection title="코로나 일자별 확진자 수">
-      <LineChart options={options} data={lineChartdata} />
+      <LineChart options={options} data={lineChartData} />
     </ChartSection>
   );
 }
